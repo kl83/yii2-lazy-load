@@ -1,1 +1,1 @@
-# yii2-lazy-load
+# Yii2 lazy render
