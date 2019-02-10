@@ -1,1 +1,1 @@
-# Yii2 lazy render
+# Yii2 lazy PJAX
