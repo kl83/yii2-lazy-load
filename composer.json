@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "~2.0.16"
+        "php": ">=5.4",
+        "yiisoft/yii2": "~2.0.6"
     },
     "autoload": {
         "psr-4": {
