@@ -4,22 +4,31 @@ namespace kl83;
 
 use Yii;
 use yii\base\BaseObject;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
+/**
+ * When the page is generated, only empty pjax tag is included in the HTML.
+ * After the page loads, the specified view is loaded via pjax.
+ * Example:
+ * (new LazyRender([
+ *  'view' => 'slow-render-view',
+ * ]))->render();
+ */
 class LazyPjax extends BaseObject
 {
     /**
-     * @var string
+     * @var string View path to render
      */
     public $view;
 
     /**
-     * @var array
+     * @var array View params
      */
     public $params = [];
 
     /**
-     * @var object
+     * @var object View context
      */
     public $context;
 
@@ -31,20 +40,23 @@ class LazyPjax extends BaseObject
     /**
      * @var string
      */
-    public $getParameter = 'lazy-render';
+    public $getParameter = '_lazy-pjax';
 
     public function render()
     {
         $viewCmp = Yii::$app->getView();
         $pjax = Pjax::begin($this->pjaxConfig);
         if (Yii::$app->getRequest()->get($this->getParameter)) {
+            Yii::$app->getResponse()->getHeaders()->add('X-Pjax-Url', Url::current([
+                $this->getParameter => null,
+            ]));
             echo $viewCmp->render($this->view, $this->params);
         } else {
             $viewCmp->registerJs('
 jQuery(function($){
 var l = window.location;
 var url = l.pathname + (l.search ? l.search + "&" : "?") + "' . $this->getParameter . '=1";
-$("#' . $pjax->id . '").reload({url: url});
+$.pjax.reload("#' . $pjax->id . '", {url: url});
 });');
         }
         Pjax::end();
