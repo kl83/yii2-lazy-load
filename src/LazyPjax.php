@@ -35,7 +35,9 @@ class LazyPjax extends BaseObject
     /**
      * @var array
      */
-    public $pjaxConfig = [];
+    public $pjaxConfig = [
+        'timeout' => 9999999,
+    ];
 
     /**
      * @var string
@@ -55,8 +57,10 @@ class LazyPjax extends BaseObject
             $viewCmp->registerJs('
 jQuery(function($){
 var l = window.location;
-var url = l.pathname + (l.search ? l.search + "&" : "?") + "' . $this->getParameter . '=1";
-$.pjax.reload("#' . $pjax->id . '", {url: url});
+$.pjax.reload("#' . $pjax->id . '", {
+    url: l.pathname + (l.search ? l.search + "&" : "?") + "' . $this->getParameter . '=1",
+    timeout: ' . $this->pjaxConfig['timeout'] . '
+});
 });');
         }
         Pjax::end();
