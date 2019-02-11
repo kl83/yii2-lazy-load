@@ -1,0 +1,20 @@
+{
+    "name": "kl83/yii2-lazy-pjax",
+    "description": "",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksandr Solovyov",
+            "email": "solovyov.a.a.19@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.16"
+    },
+    "autoload": {
+        "psr-4": {
+            "kl83\\": "src/"
+        }
+    }
+}
